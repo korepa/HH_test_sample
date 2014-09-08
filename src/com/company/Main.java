@@ -39,7 +39,6 @@ public class Main {
                 Arrays.toString(arrayMerge));
         // выведем значение медианы
         System.out.format("Значение медианы: %.2f\n" , median);
-        
     }
 
     // функция для сборки двух массивов в один
