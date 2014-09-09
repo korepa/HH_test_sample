@@ -1,4 +1,5 @@
 package com.company;
+import java.io.Console;
 import java.util.*;
 import java.util.Arrays;
 
@@ -8,71 +9,61 @@ public class Main {
     // главная функция
     public static void main(String[] args) {
 
+        // пример выполнения функции
+        System.out.format("Пример нахождения медианы для массива 2N (N > 0)\n");
+
         // (пример)объявили 2 массива
         int[] arrayFirst = {1, 2, 3, 4};
         int[] arraySecond = {1, 4, 5, 6};
 
-        // поситаем медиану
-        calculateMedian(arrayFirst, arraySecond);
+        // посчитаем медиану
+        Median median = new Median(arrayFirst, arraySecond);
+        median.CalculateMedian();
+        median.OutputResult();
 
-        // для ввода пользователю
+        // выполнение функции с вводом данных от пользователя (сначала массив А, потом В)
+        arrayFirst = inputUserArray();
+        arraySecond = inputUserArray();
+
+        // посчитаем медиану для пользовательского ввода
+        median = new Median(arrayFirst, arraySecond);
+        median.CalculateMedian();
+        median.OutputResult();
     }
 
-    // функция вычисления медианы по значениям двух массивов
-    public static void calculateMedian(int[] arrayFirst, int[] arraySecond) {
-        // отсортируем оба массива по увеличению значения
-        Arrays.sort(arrayFirst);
-        Arrays.sort(arraySecond);
+    // функция для ввода пользователем массива
+    static int[] inputUserArray(){
+        List<Integer> list = new ArrayList<Integer>();
+        Scanner stdin = new Scanner(System.in);
 
-        // соберем общий массив из двух
-        int[] arrayMerge = merge(arrayFirst, arraySecond);
+        System.out.println("Начало ввода целочисленного натурального массива. Для завершения ввода введите символ (например, n):");
+        do {
+            System.out.println("Текущий список: " + list);
+            System.out.println("Ввод числа: ");
+            String symb = stdin.next();
+            if (!symb.startsWith("n")) {
+                try {
+                    // преобразуем ввод
+                    Integer symbInt = Integer.parseInt(symb);
+                    // число должно быть больше нуля
+                    if (symbInt <= 0)
+                        break;
+                    list.add(symbInt);
+                } catch (NumberFormatException e) {
+                    // некорректный ввод (не целое число)
+                    break;
+                }
+            } else {
+                break;
+            }
+        } while (true);
 
-        // получим значение медианы
-        double median = getMedian(arrayMerge);
-
-        // пример выполнения функции
-        System.out.format("Пример нахождения медианы для массива 2N (N > 0)\n");
-        // выведем отсортированные массивы
-        System.out.format("Массив 1: %s\nМассив 2: %s\nМассив общий: %s\n",
-                Arrays.toString(arrayFirst),
-                Arrays.toString(arraySecond),
-                Arrays.toString(arrayMerge));
-        // выведем значение медианы
-        System.out.format("Значение медианы: %.2f\n" , median);
-    }
-
-    // функция для сборки двух массивов в один
-    public static int[] merge(int[] a, int[] b) {
-
-        int[] answer = new int[a.length + b.length];
-        int i = 0, j = 0, k = 0;
-
-        while (i < a.length && j < b.length)
-        {
-            if (a[i] < b[j])
-                answer[k++] = a[i++];
-
-            else
-                answer[k++] = b[j++];
+        // преобразуем в примитивный архив
+        int[] arr = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
         }
-
-        while (i < a.length)
-            answer[k++] = a[i++];
-
-
-        while (j < b.length)
-            answer[k++] = b[j++];
-
-        return answer;
-    }
-
-    // функция для сборки двух массивов в один
-    public static double getMedian(int[] a) {
-        double median;
-        if (a.length % 2 == 0)
-            median = ((double)a[a.length/2] + (double)a[a.length/2 - 1])/2;
-        else
-            median = (double) a[a.length/2];
-        return median;
+        System.out.println("Массив: " + Arrays.toString(arr));
+        return arr;
     }
 }
