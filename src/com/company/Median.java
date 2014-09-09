@@ -1,6 +1,9 @@
 package com.company;
 import java.util.Arrays;
 
+// класс, определящий медиану массива целочисленных элементов
+// вход - массив А
+// вход - массив В
 public class Median {
 
     // переменные (массивы А и В)
@@ -65,11 +68,14 @@ public class Median {
 
     // функция для сборки двух массивов в один
     private double getMedian(int[] a) {
-        double median;
-        if (a.length % 2 == 0)
-            median = ((double)a[a.length/2] + (double)a[a.length/2 - 1])/2;
-        else
-            median = (double) a[a.length/2];
+        double median = 0;
+        // не нулевой массив
+        if (a.length > 0){
+            if (a.length % 2 == 0)
+                median = ((double)a[a.length/2] + (double)a[a.length/2 - 1])/2;
+            else
+                median = (double) a[a.length/2];
+            }
         return median;
     }
 }
