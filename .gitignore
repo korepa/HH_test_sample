@@ -26,7 +26,8 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must ends with two \r.
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -37,9 +38,5 @@ Icon
 
 out/production/untitled1/com/company/Divide.class
 out/production/untitled1/com/company/Main.class
-out/production/untitled1/com/company/Main.class
-out/production/untitled1/com/company/Main.class
 out/production/untitled1/com/company/Median.class
-out/production/untitled1/com/company/Main.class
-out/production/untitled1/com/company/Main.class
 .idea/workspace.xml

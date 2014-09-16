@@ -62,26 +62,26 @@ public class Main {
             System.out.println("Первый ввод (1-число, 2-число, разрядность): 1 2 8");
             data = new Divide(1,2,8);
             result = data.Calculate();
-            System.out.format("Результат дроби a/b: %s\n", result);
+            System.out.format("Результат дроби %s/%s по базе %s: %s\n", data.first, data.second, data.rank, result);
 
             // примеры 2
             System.out.println("Второй ввод (1-число, 2-число, разрядность): 1 12 10");
             data = new Divide(1,12,10);
             result = data.Calculate();
-            System.out.format("Результат дроби a/b: %s\n", result);
+            System.out.format("Результат дроби %s/%s по базе %s: %s\n", data.first, data.second, data.rank, result);
 
             // обрабатываем пользовательский ввод
             // ввод 1
             System.out.println("Первый ввод (1-число, 2-число, разрядность) через пробел:");
             data = inputBlock();
             result = data.Calculate();
-            System.out.format("Результат дроби a/b: %s\n", result);
+            System.out.format("Результат дроби %s/%s по базе %s: %s\n", data.first, data.second, data.rank, result);
 
             // ввод 2
             System.out.println("Второй ввод (1-число, 2-число, разрядность) через пробел:");
             data = inputBlock();
             result = data.Calculate();
-            System.out.format("Результат дроби a/b: %s\n", result);
+            System.out.format("Результат дроби %s/%s по базе %s: %s\n", data.first, data.second, data.rank, result);
         }
 
         // для выхода нажмите кнопку
