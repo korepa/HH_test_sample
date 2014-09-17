@@ -59,26 +59,26 @@ public class Main {
             System.out.println("Пример деления в k-ичной системе счисления");
 
             // примеры 1
-            System.out.println("Первый ввод (1-число, 2-число, разрядность): 1 2 8");
+            System.out.println("Первый ввод (разрядность, 1-число, 2-число): 8 1 2");
             data = new Divide(1,2,8);
             result = data.Calculate();
             System.out.format("Результат дроби %s/%s по базе %s: %s\n", data.first, data.second, data.rank, result);
 
             // примеры 2
-            System.out.println("Второй ввод (1-число, 2-число, разрядность): 1 12 10");
+            System.out.println("Второй ввод (разрядность, 1-число, 2-число): 10 1 12");
             data = new Divide(1,12,10);
             result = data.Calculate();
             System.out.format("Результат дроби %s/%s по базе %s: %s\n", data.first, data.second, data.rank, result);
 
             // обрабатываем пользовательский ввод
             // ввод 1
-            System.out.println("Первый ввод (1-число, 2-число, разрядность) через пробел:");
+            System.out.println("Первый ввод (разрядность, 1-число, 2-число):");
             data = inputBlock();
             result = data.Calculate();
             System.out.format("Результат дроби %s/%s по базе %s: %s\n", data.first, data.second, data.rank, result);
 
             // ввод 2
-            System.out.println("Второй ввод (1-число, 2-число, разрядность) через пробел:");
+            System.out.println("Второй ввод (разрядность, 1-число, 2-число):");
             data = inputBlock();
             result = data.Calculate();
             System.out.format("Результат дроби %s/%s по базе %s: %s\n", data.first, data.second, data.rank, result);
@@ -139,34 +139,52 @@ public class Main {
         // вычисляем значение
         Scanner sc=new Scanner(System.in);
 
-        System.out.println("Введите первое число (делимое)...");
-        a=getInt(sc);
-        System.out.println("Введите второе число (делитель)...");
-        b=getInt(sc);
-        System.out.println("Введите степень исчисления...");
-        div=getInt(sc);
+        System.out.println("Введите степень счисления...");
+        div=getInt(sc, 2, 16);
+        if (div != 0){
+            System.out.println("Введите первое число (делимое)...");
+            a=getInt(sc, 1, div - 1);
+            if (a != 0){
+                System.out.println("Введите второе число (делитель)...");
+                b=getInt(sc, 1, div - 1);
+                if (b != 0) {
+                    // полученные значения
+                    System.out.format("Полученные значения: %d, %d, %d\n", a,   b,  div );
+                    data = new Divide(a, b, div);
+                    return data;
+                }
+            }
+        }
 
-        // полученные значения
-        System.out.format("Полученные значения: %d, %d, %d\n", a,   b,  div );
-        data = new Divide(a, b, div);
+        // вернем пустые значения
+        System.out.format("Неверный формат ввода. Используйте целые числа больше нуля. Значения не должны превышать размерность системы счисления!\n");
+        System.out.format("Пример: %d, %d, %d\n", 1, 12, 10);
+        data = new Divide(1, 12, 10);
         return data;
     }
 
-    private static int getInt(Scanner sc)
+    private static int getInt(Scanner sc, int min, int max)
     {
         for (;;) {
+            // если следующее число int
             if (!sc.hasNextInt()) {
                 System.out.println("Вводите только целые числа больше 0!");
                 sc.next();
                 continue;
             }
             int value = sc.nextInt();
-            if (value >= 0) {
-                return value;
+            // проверка на min
+            if (value >= min) {
+                // проверка на max
+                if (value <= max){
+                    return value;
+                }
+                else {
+                    System.out.format("Значение больше максимально допустимого: %d\n", max);
+                }
 
             } else {
-                System.out.print("Некорректный ввод!");
-
+                System.out.format("Значение меньше минимально допустимого: %d\n", min);
             }
             break;
         }

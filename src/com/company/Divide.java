@@ -28,7 +28,7 @@ public class Divide {
 
         // извлечем период
         BigInteger rankType;
-        if (rank == 10){
+        if (rank % 2 == 0 || rank % 5 == 0){
             // если десятичная система, берем на единицу меньше
             rankType = BigInteger.valueOf(rank - 1);
         }
@@ -36,8 +36,6 @@ public class Divide {
             rankType = BigInteger.valueOf(rank);
         }
         String res2 = repeatingFraction(first, second, rankType);
-
-        String res3 = repeatingFraction(first, second);
 
         // сложим правую и левую части для формирования результата
         StringBuilder sb = new StringBuilder();
@@ -68,8 +66,8 @@ public class Divide {
 
         // сюда будем записывать значения дроби с периодом
         StringBuilder sb = new StringBuilder();
-        //sb.append(num / den);
         sb.append('.');
+
         num %= den;
         for (int i = 3, lim = (int) Math.sqrt(num); i <= lim; i++) {
             while (num % i == 0 && den % i == 0) {
@@ -78,28 +76,35 @@ public class Divide {
             }
         }
 
+        // пока не наткнемся на нулевой остаток
         while (num > 0) {
+            // кратность 2
             while (den % 2 == 0 && num % 2 == 0) {
                 num /= 2;
                 den /= 2;
             }
+            // кратность 5
             while (den % 5 == 0 && num % 5 == 0) {
                 num /= 5;
                 den /= 5;
             }
-            // упрощаем
+            // ищем периодичность
             BigInteger denR = ran;
             BigInteger denBI = BigInteger.valueOf(den);
             long lim = den;
             while (lim % 2 == 0) lim /= 2;
             while (lim % 5 == 0) lim /= 5;
+            // пробегаем по циклу учитывая степень счисления
             for (int j = 1; j <= lim; j++, denR = denR.multiply(BigInteger.TEN).add(ran)) {
                 if (denR.mod(denBI).equals(BigInteger.ZERO)) {
                     BigInteger repeat = BigInteger.valueOf(num).multiply(denR).divide(denBI);
+                    // пишем в крублые скобки период
                     sb.append('(').append(String.format("%0" + j + "d", repeat)).append(')');
                     return sb.toString();
                 }
             }
+
+            // увеличиваем разряд и заново
             num *= 10;
             sb.append(num / den);
             num %= den;
@@ -109,49 +114,7 @@ public class Divide {
         if (sb.toString().equals("."))
             sb.append("0");
 
-        return sb.toString();
-    }
-
-
-    public static final BigInteger NINE = BigInteger.valueOf(7);
-    private static String repeatingFraction(long num, long den) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(num / den);
-        sb.append('.');
-        num %= den;
-        for (int i = 3, lim = (int) Math.sqrt(num); i <= lim; i++) {
-            while (num % i == 0 && den % i == 0) {
-                num /= i;
-                den /= i;
-            }
-        }
-
-        while (num > 0) {
-            while (den % 2 == 0 && num % 2 == 0) {
-                num /= 2;
-                den /= 2;
-            }
-            while (den % 5 == 0 && num % 5 == 0) {
-                num /= 5;
-                den /= 5;
-            }
-            // simplify.
-            BigInteger nine = NINE;
-            BigInteger denBI = BigInteger.valueOf(den);
-            long lim = den;
-            while (lim % 2 == 0) lim /= 2;
-            while (lim % 5 == 0) lim /= 5;
-            for (int j = 1; j <= lim; j++, nine = nine.multiply(BigInteger.TEN).add(NINE)) {
-                if (nine.mod(denBI).equals(BigInteger.ZERO)) {
-                    BigInteger repeat = BigInteger.valueOf(num).multiply(nine).divide(denBI);
-                    sb.append('(').append(String.format("%0" + j + "d", repeat)).append(')');
-                    return sb.toString();
-                }
-            }
-            num *= 10;
-            sb.append(num / den);
-            num %= den;
-        }
+        // вернем результат
         return sb.toString();
     }
 }
