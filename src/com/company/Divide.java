@@ -28,7 +28,7 @@ public class Divide {
 
         // извлечем период
         BigInteger rankType;
-        if (rank % 2 == 0 || rank % 5 == 0){
+        if (rank % 2 == 0 && rank % 5 == 0){
             // если десятичная система, берем на единицу меньше
             rankType = BigInteger.valueOf(rank - 1);
         }
@@ -62,6 +62,7 @@ public class Divide {
         return result;
     }
 
+    // поиск периодов в дробной части
     private String repeatingFraction(long num, long den, BigInteger ran) {
 
         // сюда будем записывать значения дроби с периодом
